@@ -1,12 +1,16 @@
 
 import RecipeCard from "@/components/RecipeCard";
 import { prebuiltRecipes } from "@/data/prebuiltRecipes";
-import { BookOpen, Search } from "lucide-react";
+import { BookOpen, Search, X } from "lucide-react";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 const RecipeLibrary = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   
   const filteredRecipes = prebuiltRecipes.filter(
     recipe => 
@@ -16,6 +20,11 @@ const RecipeLibrary = () => {
         ingredient.toLowerCase().includes(searchQuery.toLowerCase())
       )
   );
+
+  const handleRecipeClick = (recipe) => {
+    setSelectedRecipe(recipe);
+    setIsOpen(true);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#E5DEFF] via-[#FDE1D3] to-[#FFDEE2] pt-32 pb-16">
@@ -47,9 +56,20 @@ const RecipeLibrary = () => {
               filteredRecipes.map((recipe, index) => (
                 <div 
                   key={index} 
-                  className="transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                  className="transform transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer"
+                  onClick={() => handleRecipeClick(recipe)}
                 >
-                  <RecipeCard {...recipe} />
+                  <div className="w-full h-48 overflow-hidden rounded-t-lg">
+                    <img 
+                      src={recipe.image} 
+                      alt={recipe.title} 
+                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+                    />
+                  </div>
+                  <div className="p-4 backdrop-blur-sm bg-white/50 rounded-b-lg">
+                    <h3 className="font-bold text-xl text-[#403E43]">{recipe.title}</h3>
+                    <p className="text-sm text-[#6E59A5] line-clamp-2">{recipe.description}</p>
+                  </div>
                 </div>
               ))
             ) : (
@@ -60,6 +80,55 @@ const RecipeLibrary = () => {
           </div>
         </div>
       </div>
+
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetContent className="w-full sm:max-w-md md:max-w-lg overflow-y-auto">
+          <SheetHeader className="mb-4">
+            <SheetTitle className="text-2xl font-bold text-[#403E43]">
+              {selectedRecipe?.title}
+            </SheetTitle>
+            <SheetClose asChild>
+              <Button variant="ghost" size="icon" className="absolute right-4 top-4">
+                <X className="h-4 w-4" />
+              </Button>
+            </SheetClose>
+          </SheetHeader>
+          
+          {selectedRecipe && (
+            <div className="space-y-6 pr-6">
+              {selectedRecipe.image && (
+                <div className="w-full h-64 overflow-hidden rounded-lg">
+                  <img 
+                    src={selectedRecipe.image} 
+                    alt={selectedRecipe.title} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
+              
+              <p className="text-[#6E59A5]">{selectedRecipe.description}</p>
+              
+              <div>
+                <h3 className="font-medium text-gray-800 mb-2">Ingredients:</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  {selectedRecipe.ingredients.map((ingredient, index) => (
+                    <li key={index} className="text-gray-600">{ingredient}</li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div>
+                <h3 className="font-medium text-gray-800 mb-2">Instructions:</h3>
+                <ol className="list-decimal pl-5 space-y-2">
+                  {selectedRecipe.instructions.map((step, index) => (
+                    <li key={index} className="text-gray-600">{step}</li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          )}
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };
