@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,6 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import RecipeFinder from "./pages/RecipeFinder";
 import RecipeLibrary from "./pages/RecipeLibrary";
+import NavBar from "./components/NavBar";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +18,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/recipe-finder" element={<RecipeFinder />} />

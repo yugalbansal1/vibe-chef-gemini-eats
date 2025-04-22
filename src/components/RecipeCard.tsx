@@ -6,11 +6,21 @@ interface RecipeCardProps {
   description: string;
   ingredients: string[];
   instructions: string[];
+  image?: string;
 }
 
-const RecipeCard = ({ title, description, ingredients, instructions }: RecipeCardProps) => {
+const RecipeCard = ({ title, description, ingredients, instructions, image }: RecipeCardProps) => {
   return (
-    <Card className="w-full max-w-md backdrop-blur-sm bg-white/30 border-[#FFDEE2]/20 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+    <Card className="w-full max-w-md backdrop-blur-sm bg-white/30 border-[#FFDEE2]/20 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 overflow-hidden">
+      {image && (
+        <div className="w-full h-52 overflow-hidden">
+          <img 
+            src={image} 
+            alt={title} 
+            className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+          />
+        </div>
+      )}
       <CardHeader>
         <CardTitle className="text-2xl font-medium text-gray-800">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
