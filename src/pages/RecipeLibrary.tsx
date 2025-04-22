@@ -28,4 +28,4 @@ const RecipeLibrary = () => {
   );
 };
 
-export default RecipeFinder;
+export default RecipeLibrary;
