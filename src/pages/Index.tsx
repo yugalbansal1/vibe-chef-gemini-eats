@@ -1,76 +1,39 @@
 
-import { useState } from "react";
-import RecipeCard from "@/components/RecipeCard";
-import IngredientForm from "@/components/IngredientForm";
-import { prebuiltRecipes } from "@/data/prebuiltRecipes";
-import { toast } from "sonner";
-
-interface Recipe {
-  title: string;
-  description: string;
-  ingredients: string[];
-  instructions: string[];
-}
+import { Link } from "react-router-dom";
+import { ChefHat } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [generatedRecipe, setGeneratedRecipe] = useState<Recipe | null>(null);
-
-  const generateRecipe = async (ingredients: string) => {
-    setIsLoading(true);
-    try {
-      // In a real app, this would call the Gemini API
-      // For now, we'll simulate a response
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const mockRecipe = {
-        title: "Custom Recipe with " + ingredients.split(",")[0],
-        description: "A delicious recipe using your ingredients",
-        ingredients: ingredients.split(",").map(i => i.trim()),
-        instructions: [
-          "This is a placeholder instruction.",
-          "In a real app, these would come from the Gemini API.",
-          "The API would generate specific steps based on the ingredients."
-        ]
-      };
-      
-      setGeneratedRecipe(mockRecipe);
-      toast.success("Recipe generated successfully!");
-    } catch (error) {
-      toast.error("Failed to generate recipe. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#FFDEE2] via-[#FDE1D3] to-[#E5DEFF]">
-      <div className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">✨ AI Kitchen Magic ✨</h1>
-          <p className="text-gray-600 max-w-md mx-auto">
-            Transform your ingredients into delicious recipes with a touch of AI magic
+    <div className="min-h-screen bg-gradient-to-br from-[#FFDEE2] via-[#FDE1D3] to-[#E5DEFF] flex items-center justify-center">
+      <div className="container mx-auto px-4 text-center">
+        <div className="mb-12">
+          <h1 className="text-6xl font-bold text-[#403E43] mb-6">
+            ✨ AI Kitchen Magic ✨
+          </h1>
+          <p className="text-xl text-[#6E59A5] mb-12 max-w-2xl mx-auto">
+            Transform your ingredients into delicious recipes with a touch of AI magic. 
+            Your personal Gen-Z chef is here to help! ✨🍳
           </p>
         </div>
 
-        <div className="flex flex-col items-center space-y-8">
-          <IngredientForm onSubmit={generateRecipe} isLoading={isLoading} />
-
-          {generatedRecipe && (
-            <div className="w-full max-w-md">
-              <h2 className="text-2xl font-medium text-gray-800 mb-4">Your Generated Recipe</h2>
-              <RecipeCard {...generatedRecipe} />
-            </div>
-          )}
-
-          <div className="w-full max-w-4xl">
-            <h2 className="text-2xl font-medium text-gray-800 mb-4">Trending Recipes</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {prebuiltRecipes.map((recipe, index) => (
-                <RecipeCard key={index} {...recipe} />
-              ))}
-            </div>
-          </div>
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center max-w-md mx-auto">
+          <Link to="/recipe-finder" className="w-full">
+            <Button
+              className="w-full bg-gradient-to-r from-[#9b87f5] to-[#D6BCFA] text-white hover:opacity-90"
+            >
+              <ChefHat className="mr-2" />
+              Find Recipes
+            </Button>
+          </Link>
+          <Link to="/recipe-library" className="w-full">
+            <Button
+              variant="outline"
+              className="w-full border-2 border-[#9b87f5] text-[#6E59A5] hover:bg-[#E5DEFF]/50"
+            >
+              Browse Library
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
