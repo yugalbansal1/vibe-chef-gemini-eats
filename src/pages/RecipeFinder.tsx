@@ -10,7 +10,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
 // Hard-coded Gemini API key (replace with your actual key)
-const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY_HERE";
+const GEMINI_API_KEY = "AIzaSyBHMrXOl2a4lHQXnKR6Rdyo_MM4RiQFMv0";
 
 interface Recipe {
   title: string;
