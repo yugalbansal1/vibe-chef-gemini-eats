@@ -3,6 +3,7 @@ import IngredientForm from "@/components/IngredientForm";
 import RecipeCard from "@/components/RecipeCard";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Sparkles } from "lucide-react";
 
 interface Recipe {
   title: string;
@@ -33,7 +34,9 @@ const RecipeFinder = () => {
       };
       
       setGeneratedRecipe(mockRecipe);
-      toast.success("Recipe generated successfully!");
+      toast.success("Recipe generated successfully!", {
+        icon: <Sparkles className="text-purple-500" />,
+      });
     } catch (error) {
       toast.error("Failed to generate recipe. Please try again.");
     } finally {
@@ -42,17 +45,25 @@ const RecipeFinder = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FDE1D3] via-[#E5DEFF] to-[#FFDEE2]">
-      <div className="container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold text-[#403E43] mb-8 text-center">Recipe Finder</h1>
-        <div className="flex flex-col items-center space-y-8">
-          <IngredientForm onSubmit={generateRecipe} isLoading={isLoading} />
-          {generatedRecipe && (
-            <div className="w-full max-w-md">
-              <h2 className="text-2xl font-medium text-[#403E43] mb-4">Your Generated Recipe</h2>
-              <RecipeCard {...generatedRecipe} />
+    <div className="min-h-screen bg-gradient-to-br from-[#FDE1D3] via-[#E5DEFF] to-[#FFDEE2] py-12">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto space-y-8">
+          <h1 className="text-5xl font-bold text-[#403E43] text-center mb-8 animate-fade-in">
+            Recipe Alchemist 🧪
+          </h1>
+          <div className="flex flex-col items-center space-y-8">
+            <div className="w-full max-w-lg backdrop-blur-sm bg-white/30 rounded-xl p-6 shadow-lg border border-[#E5DEFF]/30">
+              <IngredientForm onSubmit={generateRecipe} isLoading={isLoading} />
             </div>
-          )}
+            {generatedRecipe && (
+              <div className="w-full max-w-md animate-scale-in">
+                <h2 className="text-2xl font-medium text-[#403E43] mb-4 text-center">
+                  Your Magical Recipe ✨
+                </h2>
+                <RecipeCard {...generatedRecipe} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
